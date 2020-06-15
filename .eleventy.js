@@ -40,6 +40,15 @@ module.exports = function (eleventyConfig) {
 		}).toFormat("yyyy-LL-dd");
 	});
 
+
+  // Add a filter to grab a youtube video id
+  eleventyConfig.addNunjucksFilter("youtubeId", function(value) {
+    // Return the ide as the first matching set of
+    // characters not including / or & after watch?v= or
+    // embed/
+    return value.match(/(?:watch\?v=|embed\/)([^\/&]*)/)[1];
+    });
+
 	// Add YAML support for data files
 	eleventyConfig.addDataExtension("yaml", (contents) =>
 		yaml.safeLoad(contents)
