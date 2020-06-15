@@ -162,20 +162,35 @@ It's time to get our hands dirty to have our e-Commerce ready to sell!
 
 Here are some concepts that will help you go further
 
-- **11ty's data:** your data can be stored however you want.
-  It may be in a database you already use, it can be
-  provided by an API from a server you already have or, if
-  you're starting from scratch, let me suggest you to create
-  simple text files Markdown a file for each product. Don't
-  know Markdown? Don't worry, you'll learn what you'll need
-  it no more than a few minutes.
-- **11ty's templates:** your template files can most
+- **11ty's data:** your [data can be stored however you
+  want](https://www.11ty.dev/docs/data/).  It may be
+  [computed data](https://www.11ty.dev/docs/data-computed/),
+  that is, data you fetch from a database or API from a
+  server you already have or, if you're starting from
+  scratch, let me suggest you to create simple text files in
+  [YAML format](https://yaml.org/spec/1.2/spec.html#Preview)
+  in the `_data` directory. You'll be amazed of the
+  simplicity of this approach. For complex needs you can use
+  Javascript files and use the default export to provide the
+  data. With this approach you can preprocess the data
+  anyway you want. The [`src/_data/lorem.js` file
+  demonstrate quite simply how to fetch data from an
+  API](blob/master/src/_data/lorem.js).
+- **11ty's templates:** your template files [can most
   probably be written in the a templating language you are
-  already familiar with. If you don't know any of them,
-  don't worry, you can customize the templates provided in
-  this project.  We will use Nunjucks templating language in
-  this project. It is a powerfull language and will most
-  probably meet your needs.
+  already familiar
+  with](https://www.11ty.dev/docs/languages/). If you don't
+  know any of these, don't worry, you can customize the
+  templates provided in this project and you'll learn the
+  templating language we're using as you go.  We're using
+  mostly [Nunjucks templating
+  language](https://mozilla.github.io/nunjucks/templating.html)
+  and
+  [Markdown](https://guides.github.com/features/mastering-markdown/)
+  in this project. Nunjucks is a powerfull language and will most
+  probably meet your needs, while Markdown is as simple as
+  it can get and you feel quite comfortable with it in
+  minutes.
 - **TailwindCSS:** creating a responsive and visually
   attractive website can be quite a hard task. There are
   plenty of tools out there. For this project we chose
@@ -184,13 +199,19 @@ Here are some concepts that will help you go further
   simply use, but the fact is that sooner or later you'll
   want to tweek it and build your own custom design.
   Tailwind is highly customizable and avoids imposing
-  anything on you.
-- **e-commerce:** Foxy.io's hosted cart solution fits
+  anything on you. Simply go to
+  [tailwindcss.com](https://tailwindcss.com/) and use their
+  search bar to find a class that meets your needs. You'll
+  also be interested in configuring TailwindCSS using the
+  [`tailwind.config.js` file](tailwind.config.js).
+- **e-commerce:** Foxy.io's hosted
+  [cart](https://docs.foxycart.com/v/2.0/cart) solution fits
   perfectly with the serverless architecture. It does not
   require you to use any particular CMS or CRM and does not
   require you to provide your products and prices in
   advance.  It provides the payment and shopping cart
-  solution and allows you to customize it's look and feel.
+  solution and allows you to [customize it's look and
+  feel](https://docs.foxycart.com/v/2.0/templates), 
 
 # Example
 
@@ -220,44 +241,151 @@ Here's what you need to get started:
 
 ##### Example: Allow the user to filter by category
 
-Here are the changes we need to make to allow the user to filter our products by
-category with a simple select button.
+Here are the changes we need to make to allow the user to
+filter our products by category with a simple select button.
 
-[...]
+We will filter only the products available on the page and
+learn how to use data from our collection items in the
+process.
+
+###### Add an attribute to the data
+Let's go to the [`src/_products`](tree/master/src/_products)
+folder and edit some of these products.
+
+Let's add a new attribute called 'productType' and set it to
+'cool':
+
+```
+productType: cool
+```
+
+Select some other products and add a different productType, perhaps
+the tag 'hot':
+
+```
+productType: hot
+```
+
+###### Use the data in the HTML
+
+Now lets create the select element. Navigate to the
+[`src/index.js` file](blob/master/src/index.njk) and look
+for a line where it reads:
+
+` {% for product in collections.product | sortByPriceHighToLow %}`
+
+Before the `section` tag above that line we'll add a simple select element:
+
+```
+<select data-action="hideProductType">
+  <option value="all">All</option>
+  <option value="hot">Hot</option>
+  <option value="cool">Cool</option>
+</select>
+```
+
+We will use this select to choose between *cool* and *hot*
+products.
+
+Next, let's add a class to our products so that we can
+distinguish the cool ones from the hot ones. Let's add a
+'product' class to the beginning of our product class list
+and we will access the productType data to add the
+productType to the end of the classList.
+
+```
+<section class="container p-2 pb-4 m-auto flex w-full flex-wrap items-stretch justify-start relative">
+  {% for product in collections.product | sortByPriceHighToLow %}
+  <div class="product flex flex-col items-center w-full
+  lg:w-1/2 p-2 {{ product.data.productType}}">
+    {# TIP: Use includes to avoid repetition
+```
+
+###### Add the behaviour in the js file
+
+Finally, let's go to the `src/_assets/scripts/app.js` file
+and add some behaviour to our select button.
+
+First, let's add a function that will filter the results.
+This is certainly not the most performant function, but you
+can easily get what it does:
+
+```
+// Filter selection button
+function hideProductType(e) {
+  var toShow = e.target.value;
+  if (toShow == 'all') {
+    document.querySelectorAll('div.product')
+      .forEach(product => product.classList.remove('hidden'));
+  } else {
+    document.querySelectorAll('div.product')
+      .forEach(product => product.classList.add('hidden'));
+    document.querySelectorAll('div.product.'+toShow)
+      .forEach(product => product.classList.remove('hidden'));
+  }
+}
+```
+
+It simply adds a 'hidden' class to all products and then
+removes from those we want to display.
+
+Now let's add this behaviour to the select button:
+
+```
+document.querySelector('select[data-action="hideProductType"]')
+  .addEventListener("change", hideProductType);
+```
+
+This code should go the other `addEventListener` in this
+file.
+
+There you go! Our select filter is ready. Not nice, but
+ready.
+
 
 #### Customize the look and feel
 
-TailWind will make you life easy here.
-Visit https://tailwindcss.com/ and type what you need in their awesome search
-bar. Grab the provide class, add it to your element and it will be mostly done.
+Let's make it nice, shall we?
 
-Configuring the TailWind theme will make your life a lot easier when the time
-comes to make changes to your store.
+This won't be difficult. First, let's replace the content of
+the default selection to "Filter the results"
 
-##### Example: styling the discount coupons
+```
+  <option value="all">Filter the results</option>
+```
 
-[..]
+Now it's easier to understand. Next, thanks to Tailwind
+we'll simply add some classes to our select element.
 
+```
+<select class="m-4 p-1 text-darker border-2 border-light rounded" data-action="hideProductType">
+```
 
-#### Adding a new feature: creating discount coupons
+That's it!
 
-Creating a new feature is simply a matter of writing our node and Js code.
+We made our select have rounded borders with a configurable
+colors from our `tailwind.config.js` file. Did you notice
+that we set border color to 'light'? There is no such color
+by default, but it is configured in our tailwind.config.js
+file.
 
-JS code in the `_assets/scripts/app.js` file will run on the client.
+Now, if someone wishes to change the theme, a quick tweak to
+the config file will do.
 
-We'll use javascript data files to allow Eleventy to process our data on compile
-time. This way we can dinamically generate data that will be updated on each
-deploy.
+# Where to go from here?
 
-[...]
+Go ahead and click the deploy button. It will fork this
+repository for you and deploy a version to production. Go
+ahead and customize the files at will. You'll find some
+handy tips along the way.
 
-##### Example: providing some discounts to categories
+You'll probably find out that these guys are loyal friends:
 
-Foxy.io allows us to easily provide discount coupons valid for a specific period
-of time. Let's create some easter eggs in our store so that costumers who
-provide us with feedback can get a coupon.
+- https://docs.netlify.com/
+- https://wiki.foxycart.com/
+- https://www.11ty.dev/docs/
+- https://tailwindcss.com/
 
-[...]
 
 # Acknowledgements
 
