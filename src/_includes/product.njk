@@ -1,9 +1,9 @@
+
 <div data-foxy-product-container
   class="rounded-md overflow-hidden shadow-lg border-light border-2 h-full w-full">
   {% if product.data.image %}
   <div>
-    <img class="h-64 object-cover w-full" src="{{ product.data.image }}" alt="{{ product.data.image_alt_text if product.data.image_alt_text else product.data.name }}">
-    {# {% myResponsiveImage product.data.image, "alt" %} #}
+    {%  productPicture product.data.image, product.data.image_alt_text %}
   </div>
   {% endif %}
 
@@ -34,6 +34,7 @@
     <div class="text-dark text-base">
       {{ product.templateContent|safe }}
     </div>
+
 
     <hr class="my-3">
 
