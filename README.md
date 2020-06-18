@@ -155,7 +155,14 @@ It's time to get our hands dirty to have our e-Commerce ready to sell!
  1. **Fetch your data on compile time:** there's a
     `src/_data/lorem.js` file. It demonstrates how to fetch
     data from your own API during compile time. This way you
-    can have your content updated on each new deploy.
+    can have your content updated on each new deploy. 
+
+** Remember to remove `src/_data/lorem.js` file.
+
+It maker real requests during build time. If you are not
+going to use the data fetched it is simply making
+unnecessary requests to the server and making your build
+time slower.
    
 
 ## Want to dive deeper? 
