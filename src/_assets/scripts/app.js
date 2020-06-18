@@ -29,43 +29,32 @@ function increment(e) {
 	target.dispatchEvent(new Event("change"));
 }
 
-const decrementButtons = document.querySelectorAll(
-	`button[data-action="decrement"]`
-);
+document.querySelectorAll(`button[data-action="decrement"]`)
+  .forEach((btn) => {
+    btn.addEventListener("click", decrement);
+  });
 
-const incrementButtons = document.querySelectorAll(
-	`button[data-action="increment"]`
-);
+document.querySelectorAll(`button[data-action="increment"]`)
+  .forEach((btn) => {
+    btn.addEventListener("click", increment);
+  });
 
-const setVideoButtons = document.querySelectorAll(
-  `button[data-action="setVideoUrl"]`
-);
-
-decrementButtons.forEach((btn) => {
-	btn.addEventListener("click", decrement);
-});
-
-incrementButtons.forEach((btn) => {
-	btn.addEventListener("click", increment);
-});
- 
-setVideoButtons.forEach((btn) => {
-  btn.addEventListener("click", setVideoUrl)
-});
-
-
+document.querySelectorAll(`button[data-action="setVideoUrl"]`)
+  .forEach((btn) => {
+    btn.addEventListener("click", setVideoUrl)
+  });
 
 // Quantity connected to Foxy links
-const qtyInputs = document.querySelectorAll("input[name='quantity']");
-qtyInputs.forEach(qty => {
-	qty.addEventListener("change", function (e) {
-		const quantity = e.target.value;
-		let foo = e.target.closest("[data-foxy-product-container]").querySelectorAll(
-			"[data-foxy-product-link]"
-		).forEach(function (l) {
-			// console.log(l.href);
-			l.href = l.href.replace(/&quantity=\d+/g, "&quantity=" + quantity);
-		});
-	});
-});
+document.querySelectorAll("input[name='quantity']")
+  .forEach(qty => {
+    qty.addEventListener("change", function (e) {
+      const quantity = e.target.value;
+      let foo = e.target.closest("[data-foxy-product-container]").querySelectorAll(
+        "[data-foxy-product-link]"
+      ).forEach(function (l) {
+        // console.log(l.href);
+        l.href = l.href.replace(/&quantity=\d+/g, "&quantity=" + quantity);
+      });
+    });
+  });
 
