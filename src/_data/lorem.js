@@ -1,3 +1,7 @@
+/**
+ * An example of how to fetch data during build time.
+ */
+
 const fetch = require('node-fetch');
 
 async function fetchLoremIpsum(paragraphs, size) {

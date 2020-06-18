@@ -10,8 +10,6 @@ foxyDefaultValues = {
   logo: "static/img/mylogo.png" // Relative to the web root
 }
 
-
-
 /**
  * If you're not creating new Foxy environment variables,
  * it's probably not a good idea to change the values bellow.
