@@ -4,7 +4,7 @@ tags:
 name: Witty Sangria Picture
 price: 240
 price_monthly: 20
-image: /static/img/product13.jpg
+image: /static/img/product6.jpg
 image_alt_text: Hoc enim identidem dicitis, non intellegere n
 
 ---

@@ -4,7 +4,7 @@ tags:
 name: Healthy Ultramarine Cake
 price: 144
 price_monthly: 12
-image: /static/img/product3.jpg
+image: /static/img/product12.jpg
 image_alt_text: Hoc enim identidem dicitis, non intellegere n
 
 ---
