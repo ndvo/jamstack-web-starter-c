@@ -5,8 +5,9 @@ html {
   scroll-behavior: smooth;
 }
 
+/* TIP: You can use Tailwind utilities in your CSS files */
 a {
-	@apply text-ws-blue-500 underline;
+	@apply text-primary underline;
 }
 
 /* From https://tailwindcomponents.com/component/number-input-counter */

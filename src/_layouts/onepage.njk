@@ -10,9 +10,10 @@ title: One-page complete e-commerce or live-event site.
 	
   <div class="text-center align-middle">
     <iframe id="video-player"
+      {# Show thumbnail of the video as a background for a fast reponse.  #}
       style="
-        background-image:
-        url(https://img.youtube.com/vi/{{
+        background-position: center center;
+        background-image: url(https://img.youtube.com/vi/{{
         collections.highlight[0].data.video.embed | youtubeId
         }}/maxresdefault.jpg);
         background-size: cover

@@ -6,22 +6,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#648eff",
-        'primary-dark': '#2d4482',
-        secondary: "#ff3232",
-        dark: "#2d2d2d",
-        light: "#d2f2ff",
-        "ws-blue": {
-          100: "#E6F0FF",
-          200: "#BFDAFF",
-          300: "#99C3FF",
-          400: "#4D97FE",
-          500: "#006AFE",
-          600: "#005FE5",
-          700: "#004098",
-          800: "#003072",
-          900: "#00204C",
+        /* TIP: you can nest your properties. */
+        primary: {
+          default: '#648eff',
+          dark: '#2d4482'
         },
+        secondary: '#ff3232',
+        dark: '#2d2d2d',
+        light: '#d2f2ff',
       },
     },
   },
