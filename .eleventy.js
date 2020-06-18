@@ -22,9 +22,6 @@ module.exports = function (eleventyConfig) {
     passthroughFileCopy: true
   }
 
-
-
-
   eleventyConfig.addNunjucksAsyncShortcode(
     'productPicture'
     , async function (src, alt) {
